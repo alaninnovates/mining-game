@@ -5,12 +5,11 @@ import java.util.Map;
 
 import enums.ItemType;
 
-public class Inventory {
-    private boolean inventoryOpen;
+public class Inventory extends Modal {
     private HashMap<ItemType, Integer> items;
 
     Inventory() {
-        this.inventoryOpen = false;
+        super();
         this.items = new HashMap<>();
     }
 
@@ -35,18 +34,12 @@ public class Inventory {
         return 0;
     }
 
-    public void toggleInventoryOpen() {
-        inventoryOpen = !inventoryOpen;
-    }
-
+    @Override
     public void draw(Graphics g, int screenWidth, int screenHeight) {
-        if (!inventoryOpen) {
+        if (!modalOpen) {
             return;
         }
-        g.setColor(Color.GRAY);
-        g.fillRect(screenWidth / 2 - 300, screenHeight / 2 - 300, 600, 600);
-        g.setColor(Color.BLACK);
-        g.drawRect(screenWidth / 2 - 300, screenHeight / 2 - 300, 600, 600);
+        super.draw(g, screenWidth, screenHeight);
         g.setColor(Color.WHITE);
         g.drawString("Inventory", screenWidth / 2 - 20, screenHeight / 2 - 280);
         int y = screenHeight / 2 - 260;

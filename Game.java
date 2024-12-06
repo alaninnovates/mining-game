@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 
 public class Game extends JPanel implements KeyListener, MouseListener {
     private World world;
+    private Shop shop;
     private WarningToast warningToast;
     private int width = 800;
     private int height = 800;
@@ -16,6 +17,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         super();
         new Updater(this);
         world = new World(width, height);
+        shop = new Shop();
         warningToast = WarningToast.getInstance();
         setFocusable(true);
         setLayout(null);
@@ -32,6 +34,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
     @Override
     public void paintComponent(Graphics g) {
         world.draw(g);
+        shop.draw(g, width, height);
         warningToast.draw(g);
         super.paintComponent(g);
     }
@@ -73,7 +76,10 @@ public class Game extends JPanel implements KeyListener, MouseListener {
                 player.moveRight();
                 break;
             case KeyEvent.VK_E:
-                player.getInventory().toggleInventoryOpen();
+                player.getInventory().toggleModal();
+                break;
+            case KeyEvent.VK_R:
+                shop.toggleModal();
                 break;
         }
     }
