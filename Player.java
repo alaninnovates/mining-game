@@ -36,6 +36,7 @@ public class Player {
     public void draw(Graphics g) {
         g.drawImage(playerImage, posX, posY, null);
         tools[currentTool].draw(g, posX, posY);
+        inventory.draw(g, screenWidth, screenHeight);
     }
 
     public void moveRight() {

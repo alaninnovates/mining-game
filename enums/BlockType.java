@@ -44,4 +44,8 @@ public enum BlockType {
     public ItemType getDrop() {
         return drop;
     }
+
+    public boolean dropsItem() {
+        return drop != null;
+    }
 }

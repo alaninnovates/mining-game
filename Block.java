@@ -40,9 +40,10 @@ public class Block {
         }
     }
 
-    public void decreaseHealthWith(Tool tool) {
+    public void decreaseHealthWith(Tool tool, Inventory inventory) {
         health -= tool.getDamage();
         if (health <= 0) {
+            inventory.addItem(type.getDrop(), 1);
             type = BlockType.Air;
             image = type.getImage();
             health = 0;
