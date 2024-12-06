@@ -40,12 +40,16 @@ public class Game extends JPanel implements KeyListener, MouseListener {
     public void mouseClicked(MouseEvent e) {
         int blockX = e.getX() / 50, blockY = e.getY() / 50;
         Block block = world.getBlocks()[blockX][blockY];
-        Tool tool = world.getPlayer().getCurrentTool();
-        if (tool.getRange() < Math.abs(blockX - world.getPlayer().getPosX() / 50)
-                || tool.getRange() < Math.abs(blockY - world.getPlayer().getPosY() / 50)) {
+        if (!block.getType().dropsItem()) {
             return;
         }
-        block.decreaseHealthWith(tool);
+        Tool tool = world.getPlayer().getCurrentTool();
+        int dx = Math.abs(blockX - world.getPlayer().getPosX() / 50);
+        int dy = Math.abs(blockY - world.getPlayer().getPosY() / 50);
+        if (dy == dx || tool.getRange() < dx || tool.getRange() < dy) {
+            return;
+        }
+        block.decreaseHealthWith(tool, world.getPlayer().getInventory());
     }
 
     @Override
@@ -68,8 +72,8 @@ public class Game extends JPanel implements KeyListener, MouseListener {
             case KeyEvent.VK_RIGHT:
                 player.moveRight();
                 break;
-            case KeyEvent.VK_T:
-                WarningToast.getInstance().addToast("custom message here");
+            case KeyEvent.VK_E:
+                player.getInventory().toggleInventoryOpen();
                 break;
         }
     }
