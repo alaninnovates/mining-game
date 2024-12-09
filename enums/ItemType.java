@@ -6,11 +6,11 @@ import javax.swing.ImageIcon;
 
 public enum ItemType {
     Stone("assets/block/stone.png"),
-    CoalOre("assets/item/coal.png"),
+    CoalOre("assets/item/coal-ore.png"),
     Wood("assets/block/wood.png"),
     Dirt("assets/block/dirt.png"),
-    DiamondOre("assets/item/diamond.png"),
-    GoldOre("assets/item/gold.png");
+    DiamondOre("assets/item/diamond-ore.png"),
+    GoldOre("assets/item/gold-ore.png");
 
     private String imagePath;
     private Image cachedImage;
