@@ -12,6 +12,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
     private WarningToast warningToast;
     private int width = 800;
     private int height = 800;
+    private int cooldownTicks = 0;
 
     public Game() {
         super();
@@ -36,11 +37,17 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         world.draw(g);
         shop.draw(g, width, height);
         warningToast.draw(g);
+        if (cooldownTicks > 0) {
+            cooldownTicks--;
+        }
         super.paintComponent(g);
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
+        if (cooldownTicks > 0) {
+            return;
+        }
         int blockX = e.getX() / 50, blockY = e.getY() / 50;
         Block block = world.getBlocks()[blockX][blockY];
         if (!block.getType().dropsItem()) {
@@ -53,6 +60,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
             return;
         }
         block.decreaseHealthWith(tool, world.getPlayer().getInventory());
+        cooldownTicks = (int) (tool.getCooldown() * 60);
     }
 
     @Override
@@ -85,7 +93,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {
     }
 
     @Override

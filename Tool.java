@@ -13,11 +13,11 @@ public class Tool {
     private Requirements requirements;
     private int damage;
     private int range;
-    private int cooldown;
+    private double cooldown;
     private boolean purchased;
     private Image image;
 
-    Tool(ToolType type, Requirements requirements, int damage, int range, int cooldown) {
+    Tool(ToolType type, Requirements requirements, int damage, int range, double cooldown) {
         this.type = type;
         this.requirements = requirements;
         this.damage = damage;
@@ -46,10 +46,6 @@ public class Tool {
         purchased = true;
     }
 
-    public void setPurchased(boolean purchased) {
-        this.purchased = purchased;
-    }
-
     public boolean isPurchased() {
         return purchased;
     }
@@ -62,7 +58,7 @@ public class Tool {
         return range;
     }
 
-    public int getCooldown() {
+    public double getCooldown() {
         return cooldown;
     }
 
