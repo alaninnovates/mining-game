@@ -1,8 +1,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.HashMap;
-import java.util.Map;
 
+import data.Items;
+import data.Items.ItemData;
 import enums.ItemType;
 
 public class Inventory extends Modal {
@@ -42,11 +43,27 @@ public class Inventory extends Modal {
         super.draw(g, screenWidth, screenHeight);
         g.setColor(Color.WHITE);
         g.drawString("Inventory", screenWidth / 2 - 20, screenHeight / 2 - 280);
-        int y = screenHeight / 2 - 260;
-        for (Map.Entry<ItemType, Integer> entry : items.entrySet()) {
-            g.drawImage(entry.getKey().getImage(), screenWidth / 2 - 280, y, null);
-            g.drawString("x" + entry.getValue(), screenWidth / 2 - 240, y + 20);
-            y += 60;
+
+        int matrixSize = 10;
+        int matrixX = screenWidth / 2 - 280;
+        int matrixY = screenHeight / 2 - 260;
+        int matrixCellWidth = 60;
+        int matrixCellHeight = 60;
+
+        for (int i = 0; i < matrixSize; i++) {
+            for (int j = 0; j < matrixSize; j++) {
+                int index = i * matrixSize + j;
+                if (index >= items.size()) {
+                    break;
+                }
+
+                ItemType itemType = (ItemType) items.keySet().toArray()[index];
+                ItemData itemData = Items.getItemData(itemType);
+                int itemAmount = items.get(itemType);
+
+                g.drawImage(itemData.getImage(), matrixX + j * matrixCellWidth, matrixY + i * matrixCellHeight, null);
+                g.drawString("x" + itemAmount, matrixX + j * matrixCellWidth + 40, matrixY + i * matrixCellHeight + 20);
+            }
         }
     }
 }

@@ -2,11 +2,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import data.Blocks;
+import data.Blocks.BlockData;
 import enums.BlockType;
 
 public class Block {
     private int health;
     private BlockType type;
+    private BlockData blockData;
     private int posX, posY;
     private Image image;
     private boolean showHealthBar;
@@ -16,8 +19,7 @@ public class Block {
         this.type = type;
         this.posX = posX;
         this.posY = posY;
-        this.health = type.getHealth();
-        this.image = type.getImage();
+        resetBlockData(type);
         this.showHealthBar = false;
         this.healthBarTicks = 0;
     }
@@ -33,7 +35,7 @@ public class Block {
         g.setColor(Color.GRAY);
         g.fillRect(posX + 5, posY + 20, 40, 5);
         g.setColor(Color.GREEN);
-        g.fillRect(posX + 5, posY + 20, (int) (40 * ((double) health / type.getHealth())), 5);
+        g.fillRect(posX + 5, posY + 20, (int) (40 * ((double) health / blockData.getHealth())), 5);
         healthBarTicks--;
         if (healthBarTicks <= 0) {
             showHealthBar = false;
@@ -43,10 +45,8 @@ public class Block {
     public void decreaseHealthWith(Tool tool, Inventory inventory) {
         health -= tool.getDamage();
         if (health <= 0) {
-            inventory.addItem(type.getDrop(), 1);
-            type = BlockType.Air;
-            image = type.getImage();
-            health = 0;
+            inventory.addItem(blockData.getDrop(), 1);
+            resetBlockData(BlockType.Air);
             showHealthBar = false;
         } else {
             showHealthBar = true;
@@ -62,6 +62,10 @@ public class Block {
         return type;
     }
 
+    public BlockData getBlockData() {
+        return blockData;
+    }
+
     public void update() {
         if (showHealthBar) {
             healthBarTicks--;
@@ -73,5 +77,11 @@ public class Block {
 
     public int getHealth() {
         return health;
+    }
+
+    private void resetBlockData(BlockType type) {
+        blockData = Blocks.getBlockData(type);
+        health = blockData.getHealth();
+        image = blockData.getImage();
     }
 }

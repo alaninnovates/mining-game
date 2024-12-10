@@ -50,7 +50,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         }
         int blockX = e.getX() / 50, blockY = e.getY() / 50;
         Block block = world.getBlocks()[blockX][blockY];
-        if (!block.getType().dropsItem()) {
+        if (!block.getBlockData().isBreakable()) {
             return;
         }
         Tool tool = world.getPlayer().getCurrentTool();

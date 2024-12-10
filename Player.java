@@ -24,9 +24,11 @@ public class Player {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         tools = new Tool[3];
-        tools[2] = new Tool(ToolType.Pickaxe, new Requirements().addRequirement(ItemType.Stone, 5).addRequirement(ItemType.CoalOre, 2), 30, 5, 0.2);
-        tools[1] = new Tool(ToolType.Axe, new Requirements().addRequirement(ItemType.Dirt, 4).addRequirement(ItemType.Stone, 2), 20, 3, 0.5);
-        tools[0] = new Tool(ToolType.Shovel, new Requirements(), 15, 1, 1);
+        tools[2] = new Tool(ToolType.Pickaxe,
+                new Requirements().addRequirement(ItemType.Stone, 5).addRequirement(ItemType.CoalOre, 2), 30, 5, 0.2);
+        tools[1] = new Tool(ToolType.Axe,
+                new Requirements().addRequirement(ItemType.Dirt, 4).addRequirement(ItemType.Stone, 2), 20, 3, 0.5);
+        tools[0] = new Tool(ToolType.Shovel, new Requirements(), 2000, 1, 1);
         currentTool = 0;
         inventory = new Inventory();
         playerImage = new ImageIcon("assets/character.png").getImage();
