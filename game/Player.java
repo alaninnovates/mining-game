@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -15,7 +16,7 @@ import exceptions.RequirementsException;
 public class Player {
     private int posX, posY;
     private int screenWidth, screenHeight;
-    private ArrayList<Tool> ownedTools;
+    private ArrayList<Tool> allTools;
     private int currentTool;
     private Inventory inventory;
     private Image playerImage;
@@ -26,17 +27,19 @@ public class Player {
         posY = 0;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        ownedTools = new ArrayList<>();
-        ownedTools.add(new Tool(ToolType.Shovel));
-        currentTool = 0;
+        allTools = new ArrayList<>();
+        for (ToolType type : ToolType.values()) {
+            allTools.add(new Tool(type));
+        }
+        currentTool = allTools.stream().map(Tool::getType).collect(Collectors.toList()).indexOf(ToolType.Shovel);
         inventory = new Inventory();
-        playerImage = new ImageIcon("assets/character.png").getImage();
+        playerImage = new ImageIcon("assets/character-new.png").getImage();
         this.world = world;
     }
 
     public void draw(Graphics g) {
         g.drawImage(playerImage, posX, posY, null);
-        ownedTools.get(currentTool).draw(g, 0, screenHeight - 50);
+        allTools.get(currentTool).draw(g, posX, posY);
         inventory.draw(g, screenWidth, screenHeight);
     }
 
@@ -81,10 +84,10 @@ public class Player {
     }
 
     public void equipTool(int index) throws NotPurchasedException {
-        if (index < 0 || index >= ownedTools.size()) {
+        if (index < 0 || index >= allTools.size()) {
             return;
         }
-        if (!ownedTools.get(index).isPurchased()) {
+        if (!allTools.get(index).isPurchased()) {
             throw new NotPurchasedException();
         }
         currentTool = index;
@@ -92,14 +95,14 @@ public class Player {
 
     public void purchaseTool() {
         try {
-            ownedTools.get(currentTool).purchase(inventory);
+            allTools.get(currentTool).purchase(inventory);
         } catch (RequirementsException e) {
             WarningToast.getInstance().addToast(e.getMessage());
         }
     }
 
     public Tool getCurrentTool() {
-        return ownedTools.get(currentTool);
+        return allTools.get(currentTool);
     }
 
     public int getPosX() {

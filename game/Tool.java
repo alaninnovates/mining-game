@@ -1,7 +1,6 @@
 package game;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.util.Map;
 
 import data.Tools;
@@ -42,6 +41,10 @@ public class Tool {
 
     public boolean isPurchased() {
         return purchased;
+    }
+
+    public ToolType getType() {
+        return type;
     }
 
     public ToolData getToolData() {

@@ -58,12 +58,16 @@ public class Tools {
                             30, 5, 0.2, "assets/tool/pickaxe.png"));
             put(ToolType.Axe,
                     new ToolData(new Requirements().addRequirement(ItemType.Dirt, 4).addRequirement(ItemType.Stone, 2),
-                            20, 3, 0.5, "assets/tool/pickaxe.png"));
-            put(ToolType.Shovel, new ToolData(new Requirements(), 2000, 1, 1, "assets/tool/pickaxe.png"));
+                            20, 3, 0.5, "assets/tool/axe.png"));
+            put(ToolType.Shovel, new ToolData(new Requirements(), 2000, 1, 1, "assets/tool/shovel.png"));
         }
     };
 
     public static ToolData getToolData(ToolType type) {
         return tools.get(type);
+    }
+
+    public static HashMap<ToolType, ToolData> getTools() {
+        return tools;
     }
 }
