@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class Modal {
-    protected boolean modalOpen;
+    private boolean modalOpen;
 
     Modal() {
         this.modalOpen = false;
@@ -12,6 +12,10 @@ public abstract class Modal {
 
     public void toggleModal() {
         modalOpen = !modalOpen;
+    }
+
+    public boolean isModalOpen() {
+        return modalOpen;
     }
 
     public void draw(Graphics g, int screenWidth, int screenHeight) {

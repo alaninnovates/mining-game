@@ -12,6 +12,7 @@ import enums.BlockType;
 import enums.ToolType;
 import exceptions.NotPurchasedException;
 import exceptions.RequirementsException;
+import ui.WarningToastManager;
 
 public class Player {
     private int posX, posY;
@@ -97,7 +98,7 @@ public class Player {
         try {
             allTools.get(currentTool).purchase(inventory);
         } catch (RequirementsException e) {
-            WarningToast.getInstance().addToast(e.getMessage());
+            WarningToastManager.getInstance().addToast(e.getMessage());
         }
     }
 

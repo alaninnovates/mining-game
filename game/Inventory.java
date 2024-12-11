@@ -2,17 +2,22 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import data.Items;
 import data.Items.ItemData;
 import enums.ItemType;
+import ui.Button;
+import ui.ButtonManager;
 
 public class Inventory extends Modal {
+    private int coins;
     private HashMap<ItemType, Integer> items;
 
     Inventory() {
         super();
+        this.coins = 0;
         this.items = new HashMap<>();
     }
 
@@ -37,15 +42,38 @@ public class Inventory extends Modal {
         return 0;
     }
 
+    public void sellItem(ItemType type, int amount) {
+        if (items.containsKey(type)) {
+            int itemAmount = items.get(type);
+            if (itemAmount >= amount) {
+                if (itemAmount - amount == 0) {
+                    items.remove(type);
+                } else {
+                    items.put(type, itemAmount - amount);
+                }
+                ItemData itemData = Items.getItemData(type);
+                coins += itemData.getValue() * amount;
+            }
+        }
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
     @Override
     public void draw(Graphics g, int screenWidth, int screenHeight) {
-        if (!modalOpen) {
+        if (!isModalOpen()) {
             return;
         }
         super.draw(g, screenWidth, screenHeight);
         g.setColor(Color.WHITE);
         g.drawString("Inventory", screenWidth / 2 - 20, screenHeight / 2 - 280);
 
+        // draw in the top lft corner the amount of coins you have
+        g.drawString("Coins: " + coins, screenWidth / 2 - 280, screenHeight / 2 - 280);
+
+        ArrayList<Button> buttons = new ArrayList<>();
         int matrixSize = 10;
         int matrixX = screenWidth / 2 - 280;
         int matrixY = screenHeight / 2 - 260;
@@ -63,9 +91,23 @@ public class Inventory extends Modal {
                 ItemData itemData = Items.getItemData(itemType);
                 int itemAmount = items.get(itemType);
 
-                g.drawImage(itemData.getImage(), matrixX + j * matrixCellWidth, matrixY + i * matrixCellHeight, null);
-                g.drawString("x" + itemAmount, matrixX + j * matrixCellWidth + 40, matrixY + i * matrixCellHeight + 20);
+                int cornerX = matrixX + j * matrixCellWidth;
+                int cornerY = matrixY + i * matrixCellHeight;
+                g.drawImage(itemData.getImage(), cornerX, cornerY, null);
+                g.drawString("x" + itemAmount, cornerX + matrixCellWidth - 15, cornerY + matrixCellHeight - 15);
+                buttons.add(
+                        new Button(cornerX, cornerY, 20, 20, "$",
+                                Color.GREEN, () -> {
+                                    sellItem(itemType, itemAmount);
+                                }));
             }
         }
+        ButtonManager.getInstance().setButtons("inventory", buttons);
+    }
+
+    @Override
+    public void toggleModal() {
+        super.toggleModal();
+        ButtonManager.getInstance().removeButtons("inventory");
     }
 }

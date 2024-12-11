@@ -1,11 +1,11 @@
-package game;
+package ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class WarningToast {
+public class WarningToastManager {
     private class Toast {
         private String text;
         private int tick;
@@ -25,16 +25,16 @@ public class WarningToast {
     }
 
     private ArrayList<Toast> toasts;
-    private static WarningToast instance;
+    private static WarningToastManager instance;
     private int tick;
 
-    private WarningToast() {
+    private WarningToastManager() {
         toasts = new ArrayList<>();
     }
 
-    public static WarningToast getInstance() {
+    public static WarningToastManager getInstance() {
         if (instance == null) {
-            instance = new WarningToast();
+            instance = new WarningToastManager();
         }
         return instance;
     }

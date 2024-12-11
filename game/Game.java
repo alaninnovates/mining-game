@@ -3,6 +3,8 @@ package game;
 import javax.swing.JPanel;
 
 import data.Tools.ToolData;
+import ui.ButtonManager;
+import ui.WarningToastManager;
 
 import java.awt.Graphics;
 import java.awt.Dimension;
@@ -14,7 +16,8 @@ import java.awt.event.MouseListener;
 public class Game extends JPanel implements KeyListener, MouseListener {
     private World world;
     private Shop shop;
-    private WarningToast warningToast;
+    private WarningToastManager warningToast;
+    private ButtonManager buttonManager;
     private int width = 800;
     private int height = 800;
     private int cooldownTicks = 0;
@@ -24,7 +27,8 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         new Updater(this);
         world = new World(width, height);
         shop = new Shop();
-        warningToast = WarningToast.getInstance();
+        warningToast = WarningToastManager.getInstance();
+        buttonManager = ButtonManager.getInstance();
         setFocusable(true);
         setLayout(null);
         setOpaque(false);
@@ -42,6 +46,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         world.draw(g);
         shop.draw(g, width, height);
         warningToast.draw(g);
+        buttonManager.draw(g);
         if (cooldownTicks > 0) {
             cooldownTicks--;
         }
@@ -50,6 +55,13 @@ public class Game extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        boolean actionTriggered = buttonManager.mousePressed(e.getX(), e.getY());
+        if (actionTriggered) {
+            return;
+        }
+        if (world.getPlayer().getInventory().isModalOpen() || shop.isModalOpen()) {
+            return;
+        }
         if (cooldownTicks > 0) {
             return;
         }
