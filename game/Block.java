@@ -1,6 +1,7 @@
+package game;
+
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 
 import data.Blocks;
 import data.Blocks.BlockData;
@@ -11,7 +12,6 @@ public class Block {
     private BlockType type;
     private BlockData blockData;
     private int posX, posY;
-    private Image image;
     private boolean showHealthBar;
     private int healthBarTicks;
 
@@ -25,7 +25,7 @@ public class Block {
     }
 
     public void draw(Graphics g) {
-        g.drawImage(image, posX, posY, null);
+        g.drawImage(blockData.getImage(), posX, posY, null);
         if (showHealthBar) {
             drawHealthBar(g);
         }
@@ -43,7 +43,7 @@ public class Block {
     }
 
     public void decreaseHealthWith(Tool tool, Inventory inventory) {
-        health -= tool.getDamage();
+        health -= tool.getToolData().getDamage();
         if (health <= 0) {
             inventory.addItem(blockData.getDrop(), 1);
             resetBlockData(BlockType.Air);
@@ -80,8 +80,8 @@ public class Block {
     }
 
     private void resetBlockData(BlockType type) {
+        this.type = type;
         blockData = Blocks.getBlockData(type);
         health = blockData.getHealth();
-        image = blockData.getImage();
     }
 }

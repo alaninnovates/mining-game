@@ -1,10 +1,13 @@
+package game;
+
+import java.util.ArrayList;
+
 import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
 import enums.BlockType;
-import enums.ItemType;
 import enums.ToolType;
 import exceptions.NotPurchasedException;
 import exceptions.RequirementsException;
@@ -12,7 +15,7 @@ import exceptions.RequirementsException;
 public class Player {
     private int posX, posY;
     private int screenWidth, screenHeight;
-    private Tool[] tools;
+    private ArrayList<Tool> ownedTools;
     private int currentTool;
     private Inventory inventory;
     private Image playerImage;
@@ -23,12 +26,8 @@ public class Player {
         posY = 0;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        tools = new Tool[3];
-        tools[2] = new Tool(ToolType.Pickaxe,
-                new Requirements().addRequirement(ItemType.Stone, 5).addRequirement(ItemType.CoalOre, 2), 30, 5, 0.2);
-        tools[1] = new Tool(ToolType.Axe,
-                new Requirements().addRequirement(ItemType.Dirt, 4).addRequirement(ItemType.Stone, 2), 20, 3, 0.5);
-        tools[0] = new Tool(ToolType.Shovel, new Requirements(), 2000, 1, 1);
+        ownedTools = new ArrayList<>();
+        ownedTools.add(new Tool(ToolType.Shovel));
         currentTool = 0;
         inventory = new Inventory();
         playerImage = new ImageIcon("assets/character.png").getImage();
@@ -37,7 +36,7 @@ public class Player {
 
     public void draw(Graphics g) {
         g.drawImage(playerImage, posX, posY, null);
-        tools[currentTool].draw(g, posX, posY);
+        ownedTools.get(currentTool).draw(g, 0, screenHeight - 50);
         inventory.draw(g, screenWidth, screenHeight);
     }
 
@@ -82,10 +81,10 @@ public class Player {
     }
 
     public void equipTool(int index) throws NotPurchasedException {
-        if (index < 0 || index >= tools.length) {
+        if (index < 0 || index >= ownedTools.size()) {
             return;
         }
-        if (!tools[index].isPurchased()) {
+        if (!ownedTools.get(index).isPurchased()) {
             throw new NotPurchasedException();
         }
         currentTool = index;
@@ -93,14 +92,14 @@ public class Player {
 
     public void purchaseTool() {
         try {
-            tools[currentTool].purchase(inventory);
+            ownedTools.get(currentTool).purchase(inventory);
         } catch (RequirementsException e) {
             WarningToast.getInstance().addToast(e.getMessage());
         }
     }
 
     public Tool getCurrentTool() {
-        return tools[currentTool];
+        return ownedTools.get(currentTool);
     }
 
     public int getPosX() {

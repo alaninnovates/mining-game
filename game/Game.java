@@ -1,4 +1,9 @@
+package game;
+
 import javax.swing.JPanel;
+
+import data.Tools.ToolData;
+
 import java.awt.Graphics;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -54,13 +59,14 @@ public class Game extends JPanel implements KeyListener, MouseListener {
             return;
         }
         Tool tool = world.getPlayer().getCurrentTool();
+        ToolData toolData = tool.getToolData();
         int dx = Math.abs(blockX - world.getPlayer().getPosX() / 50);
         int dy = Math.abs(blockY - world.getPlayer().getPosY() / 50);
-        if (dy == dx || tool.getRange() < dx || tool.getRange() < dy) {
+        if (dy == dx || toolData.getRange() < dx || toolData.getRange() < dy) {
             return;
         }
         block.decreaseHealthWith(tool, world.getPlayer().getInventory());
-        cooldownTicks = (int) (tool.getCooldown() * 60);
+        cooldownTicks = (int) (toolData.getCooldown() * 60);
     }
 
     @Override

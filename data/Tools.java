@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 
 import enums.ItemType;
 import enums.ToolType;
+import game.Requirements;
 
 public class Tools {
     public static class ToolData {
@@ -31,6 +32,22 @@ public class Tools {
             }
             return cachedImage;
         }
+
+        public Requirements getRequirements() {
+            return requirements;
+        }
+
+        public int getDamage() {
+            return damage;
+        }
+
+        public int getRange() {
+            return range;
+        }
+
+        public double getCooldown() {
+            return cooldown;
+        }
     }
 
     private static final HashMap<ToolType, ToolData> tools = new HashMap<ToolType, ToolData>() {
@@ -41,8 +58,8 @@ public class Tools {
                             30, 5, 0.2, "assets/tool/pickaxe.png"));
             put(ToolType.Axe,
                     new ToolData(new Requirements().addRequirement(ItemType.Dirt, 4).addRequirement(ItemType.Stone, 2),
-                            20, 3, 0.5, "assets/tool/axe.png"));
-            put(ToolType.Shovel, new ToolData(new Requirements(), 2000, 1, 1, "assets/tool/shovel.png"));
+                            20, 3, 0.5, "assets/tool/pickaxe.png"));
+            put(ToolType.Shovel, new ToolData(new Requirements(), 2000, 1, 1, "assets/tool/pickaxe.png"));
         }
     };
 

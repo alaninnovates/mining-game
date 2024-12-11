@@ -1,5 +1,7 @@
 import javax.swing.JFrame;
 
+import game.Game;
+
 public class Runner {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Mining Game");

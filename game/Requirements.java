@@ -1,3 +1,5 @@
+package game;
+
 import java.util.HashMap;
 
 import enums.ItemType;
@@ -5,7 +7,7 @@ import enums.ItemType;
 public class Requirements {
     private HashMap<ItemType, Integer> requirements;
 
-    Requirements() {
+    public Requirements() {
         this.requirements = new HashMap<>();
     }
 

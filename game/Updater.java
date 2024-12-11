@@ -1,3 +1,5 @@
+package game;
+
 public class Updater implements Runnable {
     Thread repainter;
     Game game;
