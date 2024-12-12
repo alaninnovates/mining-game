@@ -62,6 +62,11 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         if (world.getPlayer().getInventory().isModalOpen() || shop.isModalOpen()) {
             return;
         }
+        int blockX = e.getX() / 50, blockY = e.getY() / 50;
+        Block block = world.getBlocks()[blockX][blockY];
+        if (!block.getBlockData().isBreakable()) {
+            return;
+        }
         if (cooldownTicks > 0) {
             String cooldownStr;
             if (cooldownTicks < 60) {
@@ -70,11 +75,6 @@ public class Game extends JPanel implements KeyListener, MouseListener {
                 cooldownStr = (cooldownTicks / 60) + "s";
             }
             WarningToastManager.getInstance().addToast("Cooldown: " + cooldownStr);
-            return;
-        }
-        int blockX = e.getX() / 50, blockY = e.getY() / 50;
-        Block block = world.getBlocks()[blockX][blockY];
-        if (!block.getBlockData().isBreakable()) {
             return;
         }
         Tool tool = world.getPlayer().getCurrentTool();
