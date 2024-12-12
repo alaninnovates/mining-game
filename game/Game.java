@@ -63,6 +63,13 @@ public class Game extends JPanel implements KeyListener, MouseListener {
             return;
         }
         if (cooldownTicks > 0) {
+            String cooldownStr;
+            if (cooldownTicks < 60) {
+                cooldownStr = Math.round(cooldownTicks / 60.0 * 1000) + "ms";
+            } else {
+                cooldownStr = (cooldownTicks / 60) + "s";
+            }
+            WarningToastManager.getInstance().addToast("Cooldown: " + cooldownStr);
             return;
         }
         int blockX = e.getX() / 50, blockY = e.getY() / 50;
