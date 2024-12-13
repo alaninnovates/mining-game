@@ -60,15 +60,9 @@ public class Game extends JPanel implements KeyListener, MouseListener {
     }
 
     // extra method that is repeatedly called when the mouse is down.
-    // java swing does not call mousePressed repeatedly when the mouse is held down, so we need to call this method in the game loop.
+    // java swing does not call mousePressed repeatedly when the mouse is held down,
+    // so we need to call this method in the game loop.
     private void mouseDownRepeat(MouseEvent e) {
-        boolean actionTriggered = buttonManager.mousePressed(e.getX(), e.getY());
-        if (actionTriggered) {
-            return;
-        }
-        if (world.getPlayer().getInventory().isModalOpen() || shop.isModalOpen()) {
-            return;
-        }
         int blockX = e.getX() / 50, blockY = e.getY() / 50;
         Block block = world.getBlocks()[blockX][blockY];
         if (!block.getBlockData().isBreakable()) {
@@ -90,6 +84,13 @@ public class Game extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        boolean actionTriggered = buttonManager.mousePressed(e.getX(), e.getY());
+        if (actionTriggered) {
+            return;
+        }
+        if (world.getPlayer().getInventory().isModalOpen() || shop.isModalOpen()) {
+            return;
+        }
         mouseDown = true;
         lastMouseEvent = e;
     }
