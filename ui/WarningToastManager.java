@@ -39,7 +39,7 @@ public class WarningToastManager {
         return instance;
     }
 
-    public void addToast(String toast) {
+    public void addToast(String toast, int showMs) {
         toasts.add(new Toast(toast, tick));
     }
 

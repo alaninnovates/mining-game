@@ -1,4 +1,4 @@
-package game;
+package ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,7 +6,7 @@ import java.awt.Graphics;
 public abstract class Modal {
     private boolean modalOpen;
 
-    Modal() {
+    protected Modal() {
         this.modalOpen = false;
     }
 

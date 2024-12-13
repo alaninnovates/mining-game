@@ -10,6 +10,7 @@ import data.Items.ItemData;
 import enums.ItemType;
 import ui.Button;
 import ui.ButtonManager;
+import ui.Modal;
 
 public class Inventory extends Modal {
     private int coins;

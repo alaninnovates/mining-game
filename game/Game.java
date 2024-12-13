@@ -26,7 +26,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         super();
         new Updater(this);
         world = new World(width, height);
-        shop = new Shop();
+        shop = new Shop(world.getPlayer());
         warningToast = WarningToastManager.getInstance();
         buttonManager = ButtonManager.getInstance();
         setFocusable(true);
@@ -74,7 +74,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
             } else {
                 cooldownStr = (cooldownTicks / 60) + "s";
             }
-            WarningToastManager.getInstance().addToast("Cooldown: " + cooldownStr);
+            WarningToastManager.getInstance().addToast("Cooldown: " + cooldownStr, 5000);
             return;
         }
         Tool tool = world.getPlayer().getCurrentTool();

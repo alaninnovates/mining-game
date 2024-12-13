@@ -1,25 +1,25 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import java.awt.Graphics;
 import java.awt.Image;
 
-import javax.swing.ImageIcon;
-
 import assets.AssetLoader;
 import enums.BlockType;
 import enums.ToolType;
+import exceptions.PurchasedException;
 import exceptions.NotPurchasedException;
 import exceptions.RequirementsException;
-import ui.WarningToastManager;
 
 public class Player {
     private int posX, posY;
     private int screenWidth, screenHeight;
-    private ArrayList<Tool> allTools;
-    private int currentTool;
+    private HashMap<ToolType, Tool> allTools;
+    private ToolType currentTool;
     private Inventory inventory;
     private Image playerImage;
     private World world;
@@ -29,11 +29,12 @@ public class Player {
         posY = 0;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        allTools = new ArrayList<>();
+        allTools = new HashMap<>();
         for (ToolType type : ToolType.values()) {
-            allTools.add(new Tool(type));
+            allTools.put(type, new Tool(type));
         }
-        currentTool = allTools.stream().map(Tool::getType).collect(Collectors.toList()).indexOf(ToolType.Shovel);
+        currentTool = ToolType.Shovel;
+        allTools.get(currentTool).purchase(inventory);
         inventory = new Inventory();
         playerImage = AssetLoader.loadImage("assets/character-new.png").getImage();
         this.world = world;
@@ -85,22 +86,27 @@ public class Player {
         posY += 50;
     }
 
-    public void equipTool(int index) throws NotPurchasedException {
-        if (index < 0 || index >= allTools.size()) {
-            return;
-        }
-        if (!allTools.get(index).isPurchased()) {
+    public void equipTool(ToolType toolType) throws NotPurchasedException {
+        if (allTools.get(toolType).isPurchased()) {
+            currentTool = toolType;
+        } else {
             throw new NotPurchasedException();
         }
-        currentTool = index;
     }
 
-    public void purchaseTool() {
-        try {
-            allTools.get(currentTool).purchase(inventory);
-        } catch (RequirementsException e) {
-            WarningToastManager.getInstance().addToast(e.getMessage());
+    public void purchaseTool(ToolType toolType) throws PurchasedException, RequirementsException {
+        if (allTools.get(toolType).isPurchased()) {
+            throw new PurchasedException();
         }
+        allTools.get(toolType).purchase(inventory);
+        currentTool = toolType;
+    }
+
+    public ArrayList<ToolType> getPurchasedTools() {
+        return allTools.entrySet().stream()
+            .filter(entry -> entry.getValue().isPurchased())
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public Tool getCurrentTool() {
