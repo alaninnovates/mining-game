@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
+import assets.AssetLoader;
 import enums.ItemType;
 
 public class Items {
@@ -20,7 +21,7 @@ public class Items {
 
         public Image getImage() {
             if (cachedImage == null) {
-                cachedImage = new ImageIcon(imagePath).getImage();
+                cachedImage = AssetLoader.loadImage(imagePath).getImage();
             }
             return cachedImage;
         }

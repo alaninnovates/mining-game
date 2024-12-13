@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
+import assets.AssetLoader;
 import enums.BlockType;
 import enums.ItemType;
 
@@ -31,7 +32,7 @@ public class Blocks {
 
         public Image getImage() {
             if (cachedImage == null) {
-                cachedImage = new ImageIcon(imagePath).getImage();
+                cachedImage = AssetLoader.loadImage(imagePath).getImage();
             }
             return cachedImage;
         }

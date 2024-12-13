@@ -8,6 +8,7 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import assets.AssetLoader;
 import enums.BlockType;
 import enums.ToolType;
 import exceptions.NotPurchasedException;
@@ -34,7 +35,7 @@ public class Player {
         }
         currentTool = allTools.stream().map(Tool::getType).collect(Collectors.toList()).indexOf(ToolType.Shovel);
         inventory = new Inventory();
-        playerImage = new ImageIcon("assets/character-new.png").getImage();
+        playerImage = AssetLoader.loadImage("assets/character-new.png").getImage();
         this.world = world;
     }
 

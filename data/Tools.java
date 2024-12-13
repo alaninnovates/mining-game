@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
+import assets.AssetLoader;
 import enums.ItemType;
 import enums.ToolType;
 import game.Requirements;
@@ -28,7 +29,7 @@ public class Tools {
 
         public Image getImage() {
             if (cachedImage == null) {
-                cachedImage = new ImageIcon(imagePath).getImage();
+                cachedImage = AssetLoader.loadImage(imagePath).getImage();
             }
             return cachedImage;
         }
