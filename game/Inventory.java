@@ -33,6 +33,9 @@ public class Inventory extends Modal {
     public void removeItem(ItemType type, int amount) {
         if (items.containsKey(type)) {
             items.put(type, items.get(type) - amount);
+            if (items.get(type) <= 0) {
+                items.remove(type);
+            }
         }
     }
 
