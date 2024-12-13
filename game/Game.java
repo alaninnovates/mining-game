@@ -22,6 +22,9 @@ public class Game extends JPanel implements KeyListener, MouseListener {
     private int height = 800;
     private int cooldownTicks = 0;
 
+    private boolean mouseDown = false;
+    private MouseEvent lastMouseEvent;
+
     public Game() {
         super();
         new Updater(this);
@@ -43,6 +46,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         world.draw(g);
         shop.draw(g, width, height);
         warningToast.draw(g);
@@ -50,11 +54,14 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         if (cooldownTicks > 0) {
             cooldownTicks--;
         }
-        super.paintComponent(g);
+        if (lastMouseEvent != null && mouseDown) {
+            mouseDownRepeat(lastMouseEvent);
+        }
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
+    // extra method that is repeatedly called when the mouse is down.
+    // java swing does not call mousePressed repeatedly when the mouse is held down, so we need to call this method in the game loop.
+    private void mouseDownRepeat(MouseEvent e) {
         boolean actionTriggered = buttonManager.mousePressed(e.getX(), e.getY());
         if (actionTriggered) {
             return;
@@ -68,13 +75,6 @@ public class Game extends JPanel implements KeyListener, MouseListener {
             return;
         }
         if (cooldownTicks > 0) {
-            String cooldownStr;
-            if (cooldownTicks < 60) {
-                cooldownStr = Math.round(cooldownTicks / 60.0 * 1000) + "ms";
-            } else {
-                cooldownStr = (cooldownTicks / 60) + "s";
-            }
-            WarningToastManager.getInstance().addToast("Cooldown: " + cooldownStr, 500);
             return;
         }
         Tool tool = world.getPlayer().getCurrentTool();
@@ -86,6 +86,17 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         }
         block.decreaseHealthWith(tool, world.getPlayer().getInventory());
         cooldownTicks = (int) (toolData.getCooldown() * 60);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        mouseDown = true;
+        lastMouseEvent = e;
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        mouseDown = false;
     }
 
     @Override
@@ -119,10 +130,6 @@ public class Game extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
     }
 
     @Override
