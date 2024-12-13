@@ -74,7 +74,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
             } else {
                 cooldownStr = (cooldownTicks / 60) + "s";
             }
-            WarningToastManager.getInstance().addToast("Cooldown: " + cooldownStr, 5000);
+            WarningToastManager.getInstance().addToast("Cooldown: " + cooldownStr, 500);
             return;
         }
         Tool tool = world.getPlayer().getCurrentTool();

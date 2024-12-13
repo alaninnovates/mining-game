@@ -9,10 +9,12 @@ public class WarningToastManager {
     private class Toast {
         private String text;
         private int tick;
+        private int expireMs;
 
-        Toast(String text, int tick) {
+        Toast(String text, int tick, int expireMs) {
             this.text = text;
             this.tick = tick;
+            this.expireMs = expireMs;
         }
 
         public String getText() {
@@ -21,6 +23,10 @@ public class WarningToastManager {
 
         public int getTick() {
             return tick;
+        }
+
+        public int getExpireMs() {
+            return expireMs;
         }
     }
 
@@ -39,8 +45,8 @@ public class WarningToastManager {
         return instance;
     }
 
-    public void addToast(String toast, int showMs) {
-        toasts.add(new Toast(toast, tick));
+    public void addToast(String toast, int expireMs) {
+        toasts.add(new Toast(toast, tick, expireMs));
     }
 
     public void draw(Graphics g) {
@@ -49,7 +55,7 @@ public class WarningToastManager {
         Iterator<Toast> iterator = toasts.iterator();
         while (iterator.hasNext()) {
             Toast t = iterator.next();
-            if (t.getTick() + 60 * 5 < tick) {
+            if (t.getTick() + 60 * t.getExpireMs() / 1000 < tick) {
                 iterator.remove();
                 continue;
             }
