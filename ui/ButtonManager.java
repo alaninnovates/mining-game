@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ButtonManager {
-    private HashMap<String, ArrayList<Button>> buttonGroups;
+    private final HashMap<String, ArrayList<Button>> buttonGroups;
     private static ButtonManager instance;
 
     private ButtonManager() {

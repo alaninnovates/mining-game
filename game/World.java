@@ -7,10 +7,10 @@ import enums.BlockType;
 import java.awt.Color;
 
 public class World {
-    private int width;
-    private int height;
-    private Block[][] blocks;
-    private Player player;
+    private final int width;
+    private final int height;
+    private final Block[][] blocks;
+    private final Player player;
 
     World(int width, int height) {
         this.width = width;

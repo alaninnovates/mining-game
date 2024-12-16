@@ -17,12 +17,13 @@ import exceptions.RequirementsException;
 
 public class Player {
     private int posX, posY;
-    private int screenWidth, screenHeight;
-    private HashMap<ToolType, Tool> allTools;
+    private final int screenWidth;
+    private final int screenHeight;
+    private final HashMap<ToolType, Tool> allTools;
     private ToolType currentTool;
     private Inventory inventory;
-    private Image playerImage;
-    private World world;
+    private final Image playerImage;
+    private final World world;
 
     public Player(int screenWidth, int screenHeight, World world) {
         posX = 0;

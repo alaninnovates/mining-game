@@ -6,31 +6,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class WarningToastManager {
-    private class Toast {
-        private String text;
-        private int tick;
-        private int expireMs;
-
-        Toast(String text, int tick, int expireMs) {
-            this.text = text;
-            this.tick = tick;
-            this.expireMs = expireMs;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public int getTick() {
-            return tick;
-        }
-
-        public int getExpireMs() {
-            return expireMs;
-        }
+    private record Toast(String text, int tick, int expireMs) {
     }
 
-    private ArrayList<Toast> toasts;
+    private final ArrayList<Toast> toasts;
     private static WarningToastManager instance;
     private int tick;
 
@@ -55,11 +34,11 @@ public class WarningToastManager {
         Iterator<Toast> iterator = toasts.iterator();
         while (iterator.hasNext()) {
             Toast t = iterator.next();
-            if (t.getTick() + 60 * t.getExpireMs() / 1000 < tick) {
+            if (t.tick() + 60 * t.expireMs() / 1000 < tick) {
                 iterator.remove();
                 continue;
             }
-            String toast = t.getText();
+            String toast = t.text();
             int stringWidth = g.getFontMetrics().stringWidth(toast);
             g.setColor(Color.RED);
             g.fillRect(x, y, stringWidth + 10, 50);

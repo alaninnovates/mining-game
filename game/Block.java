@@ -11,7 +11,8 @@ public class Block {
     private int health;
     private BlockType type;
     private BlockData blockData;
-    private int posX, posY;
+    private final int posX;
+    private final int posY;
     private boolean showHealthBar;
     private int healthBarTicks;
 
@@ -54,29 +55,12 @@ public class Block {
         }
     }
 
-    public boolean isBroken() {
-        return health <= 0;
-    }
-
     public BlockType getType() {
         return type;
     }
 
     public BlockData getBlockData() {
         return blockData;
-    }
-
-    public void update() {
-        if (showHealthBar) {
-            healthBarTicks--;
-            if (healthBarTicks <= 0) {
-                showHealthBar = false;
-            }
-        }
-    }
-
-    public int getHealth() {
-        return health;
     }
 
     private void resetBlockData(BlockType type) {

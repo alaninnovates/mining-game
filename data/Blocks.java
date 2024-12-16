@@ -3,18 +3,16 @@ package data;
 import java.awt.Image;
 import java.util.HashMap;
 
-import javax.swing.ImageIcon;
-
 import assets.AssetLoader;
 import enums.BlockType;
 import enums.ItemType;
 
 public class Blocks {
     public static class BlockData {
-        private int health;
-        private String imagePath;
+        private final int health;
+        private final String imagePath;
+        private final ItemType drop;
         private Image cachedImage;
-        private ItemType drop;
 
         BlockData(int health, String imagePath) {
             this(health, imagePath, null);
@@ -46,7 +44,7 @@ public class Blocks {
         }
     }
 
-    private static final HashMap<BlockType, BlockData> blocks = new HashMap<BlockType, BlockData>() {
+    private static final HashMap<BlockType, BlockData> blocks = new HashMap<>() {
         {
             put(BlockType.Grass, new BlockData(100, "assets/block/grass.png", ItemType.Dirt));
             put(BlockType.Dirt, new BlockData(100, "assets/block/dirt.png", ItemType.Dirt));

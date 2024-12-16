@@ -14,7 +14,7 @@ import ui.Modal;
 
 public class Inventory extends Modal {
     private int coins;
-    private HashMap<ItemType, Integer> items;
+    private final HashMap<ItemType, Integer> items;
 
     Inventory() {
         super();
@@ -101,9 +101,7 @@ public class Inventory extends Modal {
                 g.drawString("x" + itemAmount, cornerX + matrixCellWidth - 15, cornerY + matrixCellHeight - 15);
                 buttons.add(
                         new Button(cornerX, cornerY, 20, 20, "$",
-                                Color.GREEN, () -> {
-                                    sellItem(itemType, itemAmount);
-                                }));
+                                Color.GREEN, () -> sellItem(itemType, itemAmount)));
             }
         }
         ButtonManager.getInstance().setButtons("inventory", buttons);

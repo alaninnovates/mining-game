@@ -5,7 +5,7 @@ import java.util.HashMap;
 import enums.ItemType;
 
 public class Requirements {
-    private HashMap<ItemType, Integer> requirements;
+    private final HashMap<ItemType, Integer> requirements;
 
     public Requirements() {
         this.requirements = new HashMap<>();

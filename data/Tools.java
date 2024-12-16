@@ -3,8 +3,6 @@ package data;
 import java.awt.Image;
 import java.util.HashMap;
 
-import javax.swing.ImageIcon;
-
 import assets.AssetLoader;
 import enums.ItemType;
 import enums.ToolType;
@@ -12,11 +10,11 @@ import game.Requirements;
 
 public class Tools {
     public static class ToolData {
-        private Requirements requirements;
-        private int damage;
-        private int range;
-        private double cooldown;
-        private String imagePath;
+        private final Requirements requirements;
+        private final int damage;
+        private final int range;
+        private final double cooldown;
+        private final String imagePath;
         private Image cachedImage;
 
         ToolData(Requirements requirements, int damage, int range, double cooldown, String imagePath) {
@@ -51,7 +49,7 @@ public class Tools {
         }
     }
 
-    private static final HashMap<ToolType, ToolData> tools = new HashMap<ToolType, ToolData>() {
+    private static final HashMap<ToolType, ToolData> tools = new HashMap<>() {
         {
             put(ToolType.Pickaxe,
                     new ToolData(

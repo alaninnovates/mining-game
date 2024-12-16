@@ -14,12 +14,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Game extends JPanel implements KeyListener, MouseListener {
-    private World world;
-    private Shop shop;
-    private WarningToastManager warningToast;
-    private ButtonManager buttonManager;
-    private int width = 800;
-    private int height = 800;
+    private final World world;
+    private final Shop shop;
+    private final WarningToastManager warningToast;
+    private final ButtonManager buttonManager;
+    private final int width = 800;
+    private final int height = 800;
     private int cooldownTicks = 0;
 
     private boolean mouseDown = false;

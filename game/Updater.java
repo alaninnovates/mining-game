@@ -1,12 +1,11 @@
 package game;
 
 public class Updater implements Runnable {
-    private Thread repainter;
-    private Game game;
+    private final Game game;
 
     public Updater(Game game) {
         this.game = game;
-        repainter = new Thread(this, "RepainterThread");
+        Thread repainter = new Thread(this, "RepainterThread");
         repainter.start();
     }
 

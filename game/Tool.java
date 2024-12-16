@@ -10,8 +10,8 @@ import exceptions.RequirementsException;
 import enums.ItemType;
 
 public class Tool {
-    private ToolType type;
-    private ToolData toolData;
+    private final ToolType type;
+    private final ToolData toolData;
     private boolean purchased;
 
     Tool(ToolType type) {

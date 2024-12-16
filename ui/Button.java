@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Button {
-    private int x;
-    private int y;
-    private int width;
-    private int height;
-    private String text;
-    private Color color;
-    private Runnable onClick;
+    private final int x;
+    private final int y;
+    private final int width;
+    private final int height;
+    private final String text;
+    private final Color color;
+    private final Runnable onClick;
 
     public Button(int x, int y, int width, int height, String text, Color color, Runnable onClick) {
         this.x = x;

@@ -3,15 +3,13 @@ package data;
 import java.awt.Image;
 import java.util.HashMap;
 
-import javax.swing.ImageIcon;
-
 import assets.AssetLoader;
 import enums.ItemType;
 
 public class Items {
     public static class ItemData {
-        private int value;
-        private String imagePath;
+        private final int value;
+        private final String imagePath;
         private Image cachedImage;
 
         ItemData(int value, String imagePath) {
@@ -31,7 +29,7 @@ public class Items {
         }
     }
 
-    private static final HashMap<ItemType, ItemData> items = new HashMap<ItemType, ItemData>() {
+    private static final HashMap<ItemType, ItemData> items = new HashMap<>() {
         {
             put(ItemType.Stone, new ItemData(5, "assets/block/stone.png"));
             put(ItemType.CoalOre, new ItemData(10, "assets/item/coal-ore.png"));
