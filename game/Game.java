@@ -75,8 +75,27 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         ToolData toolData = tool.getToolData();
         int dx = Math.abs(blockX - world.getPlayer().getPosX() / 50);
         int dy = Math.abs(blockY - world.getPlayer().getPosY() / 50);
-        if (dy == dx || toolData.getRange() < dx || toolData.getRange() < dy) {
+        // make sure block is mined only vertically or horizontally
+        if (dx > 0 && dy > 0) {
             return;
+        }
+        // make sure block is not out of range
+        if (toolData.getRange() < dx || toolData.getRange() < dy) {
+            return;
+        }
+        // make sure there is no block between player and the target block
+        if (dx > 0) {
+            for (int i = 1; i < dx; i++) {
+                if (world.getBlocks()[blockX - i * Integer.signum(blockX - world.getPlayer().getPosX() / 50)][blockY].getBlockData().isBreakable()) {
+                    return;
+                }
+            }
+        } else {
+            for (int i = 1; i < dy; i++) {
+                if (world.getBlocks()[blockX][blockY - i * Integer.signum(blockY - world.getPlayer().getPosY() / 50)].getBlockData().isBreakable()) {
+                    return;
+                }
+            }
         }
         block.decreaseHealthWith(tool, world.getPlayer().getInventory());
         cooldownTicks = (int) (toolData.getCooldown() * 60);
