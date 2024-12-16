@@ -56,11 +56,11 @@ public class Tools {
             put(ToolType.Pickaxe,
                     new ToolData(
                             new Requirements().addRequirement(ItemType.Stone, 5).addRequirement(ItemType.CoalOre, 2),
-                            30, 5, 0.2, "assets/tool/pickaxe.png"));
+                            40, 5, 0.2, "assets/tool/pickaxe.png"));
             put(ToolType.Axe,
                     new ToolData(new Requirements().addRequirement(ItemType.Dirt, 4).addRequirement(ItemType.Stone, 2),
-                            20, 3, 0.5, "assets/tool/axe.png"));
-            put(ToolType.Shovel, new ToolData(new Requirements(), 2000, 1, 1, "assets/tool/shovel.png"));
+                            30, 3, 0.5, "assets/tool/axe.png"));
+            put(ToolType.Shovel, new ToolData(new Requirements(), 15, 1, 1, "assets/tool/shovel.png"));
         }
     };
 
