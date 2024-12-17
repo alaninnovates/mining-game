@@ -11,7 +11,15 @@ public abstract class Modal {
     }
 
     public void toggleModal() {
-        modalOpen = !modalOpen;
+        boolean modalCurrOpen = ModalManager.getInstance().isAnyModalOpen();
+
+        if (modalOpen && modalCurrOpen) {
+            ModalManager.getInstance().setAnyModalOpen(false);
+            modalOpen = false;
+        } else if (!modalOpen && !modalCurrOpen) {
+            ModalManager.getInstance().setAnyModalOpen(true);
+            modalOpen = true;
+        }
     }
 
     public boolean isModalOpen() {
