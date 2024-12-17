@@ -25,18 +25,18 @@ public class Block {
         this.healthBarTicks = 0;
     }
 
-    public void draw(Graphics g) {
-        g.drawImage(blockData.getImage(), posX, posY, null);
+    public void draw(Graphics g, int playerX, int playerY) {
+        g.drawImage(blockData.getImage(), posX - playerX + 400, posY - playerY + 400, null);
         if (showHealthBar) {
-            drawHealthBar(g);
+            drawHealthBar(g, playerX, playerY);
         }
     }
 
-    public void drawHealthBar(Graphics g) {
+    public void drawHealthBar(Graphics g, int playerX, int playerY) {
         g.setColor(Color.GRAY);
-        g.fillRect(posX + 5, posY + 20, 40, 5);
+        g.fillRect(posX - playerX + 405, posY - playerY + 420, 40, 5);
         g.setColor(Color.GREEN);
-        g.fillRect(posX + 5, posY + 20, (int) (40 * ((double) health / blockData.getHealth())), 5);
+        g.fillRect(posX - playerX + 405, posY - playerY + 420, (int) (40 * ((double) health / blockData.getHealth())), 5);
         healthBarTicks--;
         if (healthBarTicks <= 0) {
             showHealthBar = false;

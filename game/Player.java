@@ -22,7 +22,7 @@ public class Player {
     private final int screenHeight;
     private HashMap<ToolType, Tool> allTools;
     private ToolType currentTool;
-    private Inventory inventory;
+    private final Inventory inventory;
     private final Image playerImage;
     private final World world;
 
@@ -47,46 +47,34 @@ public class Player {
     }
 
     public void draw(Graphics g) {
-        g.drawImage(playerImage, posX, posY, null);
-        allTools.get(currentTool).draw(g, posX, posY);
+        g.drawImage(playerImage, screenWidth / 2, screenHeight / 2, null);
+        allTools.get(currentTool).draw(g, screenWidth / 2, screenHeight / 2);
         inventory.draw(g, screenWidth, screenHeight);
     }
 
     public void moveRight() {
-        if (posX + 50 >= screenWidth) {
-            return;
-        }
-        if (world.getBlocks()[posX / 50 + 1][posY / 50].getType() != BlockType.Air) {
+        if (world.getBlock(posX + 50, posY).getType() != BlockType.Air) {
             return;
         }
         posX += 50;
     }
 
     public void moveLeft() {
-        if (posX - 50 < 0) {
-            return;
-        }
-        if (world.getBlocks()[posX / 50 - 1][posY / 50].getType() != BlockType.Air) {
+        if (world.getBlock(posX - 50, posY).getType() != BlockType.Air) {
             return;
         }
         posX -= 50;
     }
 
     public void moveUp() {
-        if (posY - 50 < 0) {
-            return;
-        }
-        if (world.getBlocks()[posX / 50][posY / 50 - 1].getType() != BlockType.Air) {
+        if (world.getBlock(posX, posY - 50).getType() != BlockType.Air) {
             return;
         }
         posY -= 50;
     }
 
     public void moveDown() {
-        if (posY + 50 >= screenHeight) {
-            return;
-        }
-        if (world.getBlocks()[posX / 50][posY / 50 + 1].getType() != BlockType.Air) {
+        if (world.getBlock(posX, posY + 50).getType() != BlockType.Air) {
             return;
         }
         posY += 50;

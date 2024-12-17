@@ -66,8 +66,13 @@ public class Game extends JPanel implements KeyListener, MouseListener {
     // java swing does not call mousePressed repeatedly when the mouse is held down,
     // so we need to call this method in the game loop.
     private void mouseDownRepeat(MouseEvent e) {
-        int blockX = e.getX() / 50, blockY = e.getY() / 50;
-        Block block = world.getBlocks()[blockX][blockY];
+        int playerX = world.getPlayer().getPosX(), playerY = world.getPlayer().getPosY();
+        int mouseX = e.getX(), mouseY = e.getY();
+        int blockX = ((mouseX + playerX - 400) / 50) * 50;
+        if (mouseX + playerX - 400 < 0) blockX -= 50;
+        int blockY = ((mouseY + playerY - 400) / 50) * 50;
+        if (mouseY + playerY - 400 < 0) blockY -= 50;
+        Block block = world.getBlock(blockX, blockY);
         if (!block.getBlockData().isBreakable()) {
             return;
         }
@@ -76,27 +81,27 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         }
         Tool tool = world.getPlayer().getCurrentTool();
         ToolData toolData = tool.getToolData();
-        int dx = Math.abs(blockX - world.getPlayer().getPosX() / 50);
-        int dy = Math.abs(blockY - world.getPlayer().getPosY() / 50);
+        int dx = Math.abs(blockX - world.getPlayer().getPosX());
+        int dy = Math.abs(blockY - world.getPlayer().getPosY());
         // make sure block is mined only vertically or horizontally
         if (dx > 0 && dy > 0) {
             return;
         }
         // make sure block is not out of range
-        if (toolData.getRange() < dx || toolData.getRange() < dy) {
+        if (toolData.getRange() < dx / 50 || toolData.getRange() < dy / 50) {
             return;
         }
         // make sure there is no block between player and the target block
         if (dx > 0) {
-            for (int i = 1; i < dx; i++) {
-                if (world.getBlocks()[blockX - i * Integer.signum(blockX - world.getPlayer().getPosX() / 50)][blockY]
+            for (int i = 1; i < dx / 50; i++) {
+                if (world.getBlock(blockX - i * Integer.signum(blockX - world.getPlayer().getPosX()), blockY)
                         .getBlockData().isBreakable()) {
                     return;
                 }
             }
         } else {
-            for (int i = 1; i < dy; i++) {
-                if (world.getBlocks()[blockX][blockY - i * Integer.signum(blockY - world.getPlayer().getPosY() / 50)]
+            for (int i = 1; i < dy / 50; i++) {
+                if (world.getBlock(blockX, blockY - i * Integer.signum(blockY - world.getPlayer().getPosY()))
                         .getBlockData().isBreakable()) {
                     return;
                 }
