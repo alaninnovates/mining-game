@@ -12,6 +12,7 @@ import assets.AssetLoader;
 import enums.BlockType;
 import enums.ToolType;
 import exceptions.PurchasedException;
+import exceptions.RebirthException;
 import exceptions.NotPurchasedException;
 import exceptions.RequirementsException;
 
@@ -19,7 +20,7 @@ public class Player {
     private int posX, posY;
     private final int screenWidth;
     private final int screenHeight;
-    private final HashMap<ToolType, Tool> allTools;
+    private HashMap<ToolType, Tool> allTools;
     private ToolType currentTool;
     private Inventory inventory;
     private final Image playerImage;
@@ -30,15 +31,19 @@ public class Player {
         posY = 0;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        initializeTools();
+        inventory = new Inventory();
+        playerImage = AssetLoader.loadImage("assets/character-new.png").getImage();
+        this.world = world;
+    }
+
+    private void initializeTools() {
         allTools = new HashMap<>();
         for (ToolType type : ToolType.values()) {
             allTools.put(type, new Tool(type));
         }
         currentTool = ToolType.Shovel;
         allTools.get(currentTool).purchase(inventory);
-        inventory = new Inventory();
-        playerImage = AssetLoader.loadImage("assets/character-new.png").getImage();
-        this.world = world;
     }
 
     public void draw(Graphics g) {
@@ -105,13 +110,24 @@ public class Player {
 
     public ArrayList<ToolType> getPurchasedTools() {
         return allTools.entrySet().stream()
-            .filter(entry -> entry.getValue().isPurchased())
-            .map(Map.Entry::getKey)
-            .collect(Collectors.toCollection(ArrayList::new));
+                .filter(entry -> entry.getValue().isPurchased())
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public Tool getCurrentTool() {
         return allTools.get(currentTool);
+    }
+
+    public void rebirth() {
+        int requiredAmt = RebirthCalculator.calculateRebirthCost(inventory.getRebirths());
+        if (inventory.getCoins() < requiredAmt) {
+            throw new RebirthException(requiredAmt - inventory.getCoins());
+        }
+        posX = 0;
+        posY = 0;
+        initializeTools();
+        inventory.rebirth();
     }
 
     public int getPosX() {

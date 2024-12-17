@@ -14,6 +14,7 @@ import ui.Modal;
 
 public class Inventory extends Modal {
     private int coins;
+    private int rebirths;
     private final HashMap<ItemType, Integer> items;
 
     Inventory() {
@@ -65,6 +66,15 @@ public class Inventory extends Modal {
         return coins;
     }
 
+    public void rebirth() {
+        rebirths++;
+        items.clear();
+    }
+
+    public int getRebirths() {
+        return rebirths;
+    }
+
     @Override
     public void draw(Graphics g, int screenWidth, int screenHeight) {
         if (!isModalOpen()) {
@@ -73,11 +83,10 @@ public class Inventory extends Modal {
         super.draw(g, screenWidth, screenHeight);
         g.setColor(Color.WHITE);
         g.drawString("Inventory", screenWidth / 2 - 20, screenHeight / 2 - 280);
-
-        // draw in the top lft corner the amount of coins you have
         g.drawString("Coins: " + coins, screenWidth / 2 - 280, screenHeight / 2 - 280);
 
         ArrayList<Button> buttons = new ArrayList<>();
+
         int matrixSize = 10;
         int matrixX = screenWidth / 2 - 280;
         int matrixY = screenHeight / 2 - 260;

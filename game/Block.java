@@ -44,9 +44,11 @@ public class Block {
     }
 
     public void decreaseHealthWith(Tool tool, Inventory inventory) {
-        health -= tool.getToolData().getDamage();
+        int damageMultiplier = RebirthCalculator.calculateRebirthDamageMultiplier(inventory.getRebirths());
+        health -= tool.getToolData().getDamage() * damageMultiplier;
         if (health <= 0) {
-            inventory.addItem(blockData.getDrop(), 1);
+            int blockMultiplier = RebirthCalculator.calculateRebirthBlockMutiplier(inventory.getRebirths());
+            inventory.addItem(blockData.getDrop(), blockMultiplier);
             resetBlockData(BlockType.Air);
             showHealthBar = false;
         } else {

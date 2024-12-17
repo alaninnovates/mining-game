@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
 public class Game extends JPanel implements KeyListener, MouseListener {
     private final World world;
     private final Shop shop;
+    private final Sidebar sidebar;
     private final WarningToastManager warningToast;
     private final ButtonManager buttonManager;
     private final int width = 800;
@@ -30,6 +31,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         new Updater(this);
         world = new World(width, height);
         shop = new Shop(world.getPlayer());
+        sidebar = new Sidebar(width, height, world.getPlayer(), shop, world.getPlayer().getInventory());
         warningToast = WarningToastManager.getInstance();
         buttonManager = ButtonManager.getInstance();
         setFocusable(true);
@@ -49,6 +51,7 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         super.paintComponent(g);
         world.draw(g);
         shop.draw(g, width, height);
+        sidebar.draw(g);
         warningToast.draw(g);
         buttonManager.draw(g);
         if (cooldownTicks > 0) {
@@ -86,13 +89,15 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         // make sure there is no block between player and the target block
         if (dx > 0) {
             for (int i = 1; i < dx; i++) {
-                if (world.getBlocks()[blockX - i * Integer.signum(blockX - world.getPlayer().getPosX() / 50)][blockY].getBlockData().isBreakable()) {
+                if (world.getBlocks()[blockX - i * Integer.signum(blockX - world.getPlayer().getPosX() / 50)][blockY]
+                        .getBlockData().isBreakable()) {
                     return;
                 }
             }
         } else {
             for (int i = 1; i < dy; i++) {
-                if (world.getBlocks()[blockX][blockY - i * Integer.signum(blockY - world.getPlayer().getPosY() / 50)].getBlockData().isBreakable()) {
+                if (world.getBlocks()[blockX][blockY - i * Integer.signum(blockY - world.getPlayer().getPosY() / 50)]
+                        .getBlockData().isBreakable()) {
                     return;
                 }
             }
