@@ -49,6 +49,7 @@ public class Blocks {
             put(BlockType.Grass, new BlockData(100, "assets/block/grass.png", ItemType.Dirt));
             put(BlockType.Dirt, new BlockData(100, "assets/block/dirt.png", ItemType.Dirt));
             put(BlockType.Stone, new BlockData(200, "assets/block/stone.png", ItemType.Stone));
+            put(BlockType.Fossil, new BlockData(200, "assets/block/fossil.png", ItemType.Fossil));
             put(BlockType.Coal, new BlockData(300, "assets/block/coal.png", ItemType.CoalOre));
             put(BlockType.Water, new BlockData(0, "assets/block/water.png"));
             put(BlockType.Air, new BlockData(0, "assets/block/air.png"));
