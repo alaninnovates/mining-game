@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import data.Tools.ToolData;
 import ui.ButtonManager;
+import ui.Tutorial;
 import ui.WarningToastManager;
 
 import java.awt.Graphics;
@@ -69,9 +70,11 @@ public class Game extends JPanel implements KeyListener, MouseListener {
         int playerX = world.getPlayer().getPosX(), playerY = world.getPlayer().getPosY();
         int mouseX = e.getX(), mouseY = e.getY();
         int blockX = ((mouseX + playerX - 400) / 50) * 50;
-        if (mouseX + playerX - 400 < 0) blockX -= 50;
+        if (mouseX + playerX - 400 < 0)
+            blockX -= 50;
         int blockY = ((mouseY + playerY - 400) / 50) * 50;
-        if (mouseY + playerY - 400 < 0) blockY -= 50;
+        if (mouseY + playerY - 400 < 0)
+            blockY -= 50;
         Block block = world.getBlock(blockX, blockY);
         if (!block.getBlockData().isBreakable()) {
             return;
