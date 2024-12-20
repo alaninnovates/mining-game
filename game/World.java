@@ -39,9 +39,9 @@ public class World {
     }
 
     private BlockType determineBlockType(int y) {
-        if (y < 100) {
+        if (y < 50) {
             return BlockType.Air;
-        } else if (y < 150) {
+        } else if (y < 100) {
             return BlockType.Grass;
         } else if (y < 200) {
             return BlockType.Dirt;
