@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 
 import data.Tools.ToolData;
 import ui.ButtonManager;
-import ui.Tutorial;
 import ui.WarningToastManager;
 
 import java.awt.Graphics;
